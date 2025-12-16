@@ -35,5 +35,25 @@ trend analysis. This system allows providers and patients to visualize hormone l
 | Timestamps| System Generated | timestamps |
 
 ## Basic Workflow :
+1. Data Upload
+   * User (provider or patient) accesses the Flask web application.
+   * User uploads thyroid-related CSV files, including lab results (TSH, Free T4, T3), symptom survey data, vitals, and medication information.
+2. File Storage
+   * The system verifies uploaded files for format and required fields.
+   * CSV files are stored in cloud storage and organized by data type and upload date.
+3. Data Loading and Processing
+   * The system cleans and standardizes the data by normalizing column names, validating data ranges, and handling missing values.
+   * A processing log is generated to summarize rows processed and data quality issues.
+   * Cleaned data is loaded into a managed SQL database and stored in structured tables for labs, symptoms, vitals, and medications.
+4. Analytical Processing
+   * System executes automated queries on the processed data.
+   * Summary tables are generated to capture trends such as changes in thyroid hormone levels and abnormal lab patterns.
+5. Dashboard Visualization
+   * System retrieves summary data from the database.
+   * The Flask dashboard displays trends, tables, and indicators for monitoring hyperthyroidism over time.
+
+
+
+     
 
 
