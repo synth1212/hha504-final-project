@@ -29,12 +29,21 @@
 
 ## 2. Data Flow Narrative 
 Step 1: The user uploads the thyroid lab and symptom CSV files via Flask.
-Step 2: Files are stored in cloud object storage.
-Step 3: A containerized service parses and cleans the data.
-Step 4: Cleaned records are inserted into a SQL database.
-Step 5: Analytics compute hormone trends and flags.
-Step 6: Flask app displays tables and charts for monitoring.
+
+Step 2: Files are stored in GCP Cloud Storage. *Files are organized by data type and upload date.*
+
+Step 3: After upload, the Flask application sends an API request to trigger an ETL process running in a Cloud Run container.
+
+Step 4: Cloud Run ETL service reads the CSV files from Cloud Storage and performs data validation and cleaning. *Includes checking required fields, normalizing column names, validating data ranges, and handling missing or invalid values.*
+
+Step 5: Cleaned records are inserted into the Cloud SQL database.
+
+Step 6: Selected datasets are loaded into BigQuery, where analytics compute trends in thyroid hormone levels and flag abnormal patterns.
+
+Step 7: Flask app displays tables and charts for monitoring.
 
 ## 3. Security, Identity, and Governance Basics
+Cloud credential handling and secret management are used to handle security. GCP Secret Manager is used to securely store application credentials, such as database connection information and service access keys, which are then accessed at runtime by the Flask application and Cloud Run services through environment variables. Using unique permissions given to patients and providers, role-based access control (RBAC) guarantees that only authorized individuals can access sensitive data. Only synthetic (de-identified) data is used; no actual patient identifiers are kept, and all cloud resources are set up with minimal permissions that comply with the principle of least privilege in order to reduce governance and privacy problems.
 
 ## 4. Cost and Operational Considerations
+By utilizing serverless processing via Cloud Run, automatic scaling eliminates the need for constantly operating virtual machines. This would help reduce operational costs, which is a plus in the long run. Since CSV files and log data are kept in cloud storage is relatively small, storage costs are still reasonable. BigQuery prevents unnecessary compute utilization by executing analytics workloads only when needed. Free tiers and student cloud credits are used whenever possible to maintain the system's overall cost-effectiveness while maintaining all necessary functionality.
