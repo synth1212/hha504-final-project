@@ -1,5 +1,5 @@
 # Use Case Description 
-## Instruction : 
+## Instructions : 
 Define a healthcare scenario 
 A description consisting of:
 1. Problem Statement: What problem are you solving? Who are the users?
